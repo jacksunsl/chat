@@ -65,7 +65,7 @@ public class Server {
 		} finally {
 			workerGroup.shutdownGracefully();
 			bossGroup.shutdownGracefully();
-			LOG.info("hipishare-chat-server 关闭了");
+			LOG.info("hipishare-chat-server 关闭了。");
 		}
 	}
 }
