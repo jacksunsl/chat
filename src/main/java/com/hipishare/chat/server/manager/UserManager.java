@@ -16,12 +16,16 @@ import io.netty.channel.ChannelId;
  */
 public class UserManager {
 
-	public static UserManager userChannelMap = new UserManager();
+	private static UserManager userManager = new UserManager();
 	
 	private final Map<ChannelId, User> usersMap;
 
 	private UserManager(){
 		usersMap = new ConcurrentHashMap<ChannelId,User>();
+	}
+	
+	public static UserManager getInstance() {
+		return userManager;
 	}
 	
 	public void addUser(ChannelId channelId,  User user){

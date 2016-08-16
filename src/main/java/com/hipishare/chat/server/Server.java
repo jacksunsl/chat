@@ -4,6 +4,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.hipishare.chat.server.handler.SecureChatInitializer;
+import com.hipishare.chat.server.manager.MemcachedManager;
+import com.hipishare.chat.server.manager.RedisManager;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -51,10 +53,15 @@ public class Server {
 					.childOption(ChannelOption.SO_KEEPALIVE, true)
 //		            .handler(new LoggingHandler(LogLevel.INFO))
 					.childHandler(new SecureChatInitializer(sslCtx));// 增加ssl安全
-			LOG.info("hipishare-chat-server[port="+port+"] 启动成功...");
-
+			
+			// 初始化memcached
+			MemcachedManager.initMemcached();
+			// 初始化redis
+			RedisManager.getRedisClient();
+			
 			// 绑定端口，开始接收进来的连接
 			ChannelFuture f = b.bind(port).sync();
+			LOG.info("hipishare-chat-server[port="+port+"] 启动成功...");
 
 			// 等待服务器 socket 关闭 。
 			// 在这个例子中，这不会发生，但你可以优雅地关闭你的服务器。

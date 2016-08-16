@@ -13,8 +13,7 @@ public enum CmdEnum {
 	REGISTER_CODE((short)2),// 注册短信验证码
 	LOGIN((short)3),// 登录
 	CHAT((short)4),// 聊天
-	CHESS((short)5),// 下棋
-	SEAT((short)6),// 玩家坐下
+	GET_FRIENDS((short)5),// 获取好友列表
 	READY((short)7);// 准备
 	
 	private final short cmd;

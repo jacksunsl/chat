@@ -14,23 +14,27 @@ import io.netty.channel.Channel;
  */
 public class ChannelManager {
 	
-	public static ChannelManager channelUserMap = new ChannelManager();
+	public static ChannelManager channelManager = new ChannelManager();
 	
-	private final Map<Long, Channel> channelsMap;
+	private final Map<String, Channel> channelsMap;
 
 	private ChannelManager(){
-		channelsMap = new ConcurrentHashMap<Long, Channel>();
+		channelsMap = new ConcurrentHashMap<String, Channel>();
+	}
+	
+	public static ChannelManager getInstance() {
+		return channelManager;
 	}
 
-	public Channel getChannel(Long userId){
+	public Channel getChannel(String userId){
 		return channelsMap.get(userId);
 	}
 	
-	public void addChannel(Long userId, Channel channel){
+	public void addChannel(String userId, Channel channel){
 		channelsMap.put(userId, channel);
 	}
 	
-	public void removeChannel(Long userId){
+	public void removeChannel(String userId){
 		channelsMap.remove(userId);
 	}
 

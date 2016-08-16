@@ -36,6 +36,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.google.gson.Gson;
+import com.hipishare.chat.server.domain.ChatObject;
 import com.hipishare.chat.server.domain.MsgObject;
 import com.hipishare.chat.server.domain.User;
 import com.hipishare.chat.server.enums.CmdEnum;
@@ -104,11 +105,22 @@ public final class SecureChatClient {
 				}
 				MsgObject msgObj = new MsgObject();
 				Gson gson = new Gson();
-				User user = new User();
-				user.setAccount("admin");
-				user.setPwd("6666");
-				msgObj.setC(CmdEnum.LOGIN.getCmd());
-				msgObj.setM(gson.toJson(user));
+				if ("1".equals(line)) {
+					User user = new User();
+					user.setAccount("peter");
+					user.setPwd("666666");
+					msgObj.setC(CmdEnum.LOGIN.getCmd());
+					msgObj.setM(gson.toJson(user));
+				} else if ("2".equals(line)) {
+					ChatObject co = new ChatObject();
+					co.setContent("hello,jack. I am peter.");
+					co.setMsgType("text");
+					co.setMsgTo("jack");
+					co.setMsgFrom("peter");
+					co.setCreateTime(System.currentTimeMillis());
+					msgObj.setC(CmdEnum.CHAT.getCmd());
+					msgObj.setM(gson.toJson(co));
+				}
 				String msg = gson.toJson(msgObj);
 				ByteBuf buf = Unpooled.copiedBuffer(msg.getBytes());
 				lastWriteFuture = channel.writeAndFlush(buf);

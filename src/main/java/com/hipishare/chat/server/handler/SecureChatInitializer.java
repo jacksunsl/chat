@@ -57,7 +57,7 @@ public class SecureChatInitializer extends ChannelInitializer<SocketChannel> {
         pipeline.addLast(new MsgObjectEncoder());
         
         // 心跳检测
-        pipeline.addLast(new IdleStateHandler(3, 1, 0, TimeUnit.SECONDS));
+        pipeline.addLast(new IdleStateHandler(160, 130, 0, TimeUnit.SECONDS));
         pipeline.addLast(new HeartBeatHandler());
 
         // and then business logic.

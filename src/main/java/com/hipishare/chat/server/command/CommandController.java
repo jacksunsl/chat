@@ -6,6 +6,7 @@ import com.hipishare.chat.server.receiver.HeartBeatReceiver;
 import com.hipishare.chat.server.receiver.LoginReceiver;
 import com.hipishare.chat.server.receiver.RegisterCodeReceiver;
 import com.hipishare.chat.server.receiver.RegisterReceiver;
+import com.hipishare.chat.server.receiver.SingleChatReceiver;
 
 import io.netty.channel.Channel;
 
@@ -35,6 +36,9 @@ public class CommandController {
 			
 		case REGISTER:
 			return new RegisterReceiver(msg, channel);
+			
+		case CHAT:
+			return new SingleChatReceiver(msg, channel);
 			
 		default:
 			break;
