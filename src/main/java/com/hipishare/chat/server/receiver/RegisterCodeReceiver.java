@@ -4,6 +4,8 @@ import com.hipishare.chat.server.command.HipishareCommand;
 import com.hipishare.chat.server.domain.MsgObject;
 import com.hipishare.chat.server.domain.RegisterCode;
 import com.hipishare.chat.server.enums.CmdEnum;
+import com.hipishare.chat.server.manager.MemcachedManager;
+import com.hipishare.chat.server.utils.Constants;
 import com.hipishare.chat.server.utils.RandomCode;
 
 import io.netty.channel.Channel;
@@ -31,9 +33,13 @@ public class RegisterCodeReceiver extends AbstractReceiver<RegisterCode> impleme
 		// 验证该手机号是否列入注册黑名单（需要客服解封）
 		if (null != registerCode.getMobile()) {
 			MsgObject msgObj = new MsgObject();
+			String code = RandomCode.getCharAndNumr(4, true);
 			msgObj.setC(CmdEnum.REGISTER_CODE.getCmd());
-			msgObj.setM(RandomCode.getCharAndNumr(4, true));// 短信验证码随机数
-			sendMsg(msgObj);
+			msgObj.setM(code);// 短信验证码随机数
+			boolean flag = MemcachedManager.set(Constants.REGISTER_CODE+registerCode.getMobile(), code);
+			if (flag) {
+				sendMsg(msgObj);
+			}
 		}
 	}
 

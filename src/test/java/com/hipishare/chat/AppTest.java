@@ -1,5 +1,6 @@
 package com.hipishare.chat;
 
+import redis.clients.jedis.Jedis;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -35,4 +36,11 @@ public class AppTest
     {
         assertTrue( true );
     }
+    
+    public static void main(String[] args) {
+    	for(int i=0;i<100;i++) {
+        	Jedis jedis = new Jedis("120.25.160.18", 6379);
+        	System.out.println(jedis.get("aadaf2"));
+    	}
+	}
 }

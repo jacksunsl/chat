@@ -11,6 +11,7 @@ public class RegisterCode {
 	private String mobile;// 手机号
 	private String imei;// 手机设备号
 	private String code;// 短信验证码(4位数字)
+	private String pwd;// 注册密码
 	private String sign;// 签名（避免刷短信）
 	public String getMobile() {
 		return mobile;

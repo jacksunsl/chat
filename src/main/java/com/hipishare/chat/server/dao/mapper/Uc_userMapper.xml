@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- uc_user[uc_user]SQLMapper自动映射 -->
+<!--  注意:此文件由AOS平台自动生成-禁止手工修改 2016-08-16 12:09:17 -->
+<mapper namespace="com.hipishare.chat.server.dao.mapper.Uc_userMapper">
+	
+	<!-- 插入一个数据持久化对象(插入字段为传入PO实体的非空属性) -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="Uc_userPO">
+		INSERT INTO uc_user (
+		<if test="mobile != null and mobile != ''">
+	         mobile, <!-- 手机号 -->
+		</if>
+		<if test="account != null and account != ''">
+	         account, <!-- 账号 -->
+		</if>
+		<if test="pwd != null and pwd != ''">
+	         pwd, <!-- 密码 -->
+		</if>
+		<if test="userid != null">
+	         userid, <!-- userid,用户唯一标识 -->
+		</if>
+		<if test="openid != null and openid != ''">
+	         openid, <!-- openid -->
+		</if>
+		<if test="status != null">
+	         status, <!-- 用户状态:1.正常 2.停用 -->
+		</if>
+		<if test="register_time != null and register_time != ''">
+	         register_time, <!-- 注册时间 -->
+		</if>
+		<if test="is_valid != null">
+	         is_valid, <!-- 数据是否有效:0.无效 1.有效 -->
+		</if>
+	          id
+		)VALUES(
+		<if test="mobile != null and mobile != ''">
+	          #{mobile, jdbcType=VARCHAR}, <!-- 手机号 -->
+	    </if>
+		<if test="account != null and account != ''">
+	          #{account, jdbcType=VARCHAR}, <!-- 账号 -->
+	    </if>
+		<if test="pwd != null and pwd != ''">
+	          #{pwd, jdbcType=VARCHAR}, <!-- 密码 -->
+	    </if>
+		<if test="userid != null">
+	          #{userid, jdbcType=INTEGER}, <!-- userid,用户唯一标识 -->
+	    </if>
+		<if test="openid != null and openid != ''">
+	          #{openid, jdbcType=VARCHAR}, <!-- openid -->
+	    </if>
+		<if test="status != null">
+	          #{status, jdbcType=INTEGER}, <!-- 用户状态:1.正常 2.停用 -->
+	    </if>
+		<if test="register_time != null and register_time != ''">
+	          #{register_time, jdbcType=VARCHAR}, <!-- 注册时间 -->
+	    </if>
+		<if test="is_valid != null">
+	          #{is_valid, jdbcType=INTEGER}, <!-- 数据是否有效:0.无效 1.有效 -->
+	    </if>
+	          null
+		)
+	</insert>
+	
+	<!-- 插入一个数据持久化对象(含所有字段) -->
+	<insert id="insertAll" useGeneratedKeys="true" keyProperty="id" parameterType="Uc_userPO">
+		INSERT INTO uc_user (
+		    <include refid="column" />
+		)
+		VALUES (
+		    #{id, jdbcType=INTEGER},  <!-- 主键id -->
+		    #{mobile, jdbcType=VARCHAR},  <!-- 手机号 -->
+		    #{account, jdbcType=VARCHAR},  <!-- 账号 -->
+		    #{pwd, jdbcType=VARCHAR},  <!-- 密码 -->
+		    #{userid, jdbcType=INTEGER},  <!-- userid,用户唯一标识 -->
+		    #{openid, jdbcType=VARCHAR},  <!-- openid -->
+		    #{status, jdbcType=INTEGER},  <!-- 用户状态:1.正常 2.停用 -->
+		    #{register_time, jdbcType=VARCHAR},  <!-- 注册时间 -->
+		    #{is_valid, jdbcType=INTEGER}  <!-- 数据是否有效:0.无效 1.有效 -->
+		)
+	</insert>
+
+	<!-- 根据主键修改数据持久化对象 -->
+	<update id="updateByKey" parameterType="Uc_userPO">
+		UPDATE uc_user
+		<set>
+			<if test="id != null">
+		          id = #{id, jdbcType=INTEGER},  <!-- 主键id -->
+			</if>
+			<if test="mobile != null">
+		          mobile = #{mobile, jdbcType=VARCHAR},  <!-- 手机号 -->
+			</if>
+			<if test="account != null">
+		          account = #{account, jdbcType=VARCHAR},  <!-- 账号 -->
+			</if>
+			<if test="pwd != null">
+		          pwd = #{pwd, jdbcType=VARCHAR},  <!-- 密码 -->
+			</if>
+			<if test="userid != null">
+		          userid = #{userid, jdbcType=INTEGER},  <!-- userid,用户唯一标识 -->
+			</if>
+			<if test="openid != null">
+		          openid = #{openid, jdbcType=VARCHAR},  <!-- openid -->
+			</if>
+			<if test="status != null">
+		          status = #{status, jdbcType=INTEGER},  <!-- 用户状态:1.正常 2.停用 -->
+			</if>
+			<if test="register_time != null">
+		          register_time = #{register_time, jdbcType=VARCHAR},  <!-- 注册时间 -->
+			</if>
+			<if test="is_valid != null">
+		          is_valid = #{is_valid, jdbcType=INTEGER},  <!-- 数据是否有效:0.无效 1.有效 -->
+			</if>
+		</set>
+		WHERE  id = #{id}
+	</update>
+	
+	<!-- 根据主键删除数据持久化对象 -->
+	<delete id="deleteByKey">
+		DELETE FROM uc_user WHERE  id = #{id}
+	</delete>
+
+	<!-- 根据主键查询并返回数据持久化对象 -->
+	<select id="selectByKey" resultType="Uc_userPO">
+		SELECT
+		<include refid="column" />
+		FROM uc_user WHERE  id = #{id}
+	</select>
+
+	
+	<!-- 表字段 -->
+	<sql id="column">
+		  id,  <!-- 主键id -->
+		  mobile,  <!-- 手机号 -->
+		  account,  <!-- 账号 -->
+		  pwd,  <!-- 密码 -->
+		  userid,  <!-- userid,用户唯一标识 -->
+		  openid,  <!-- openid -->
+		  status,  <!-- 用户状态:1.正常 2.停用 -->
+		  register_time,  <!-- 注册时间 -->
+		  is_valid  <!-- 数据是否有效:0.无效 1.有效 -->
+	</sql>
+	
+	<!-- 表字段(用于外表的关联时引用) -->
+	<sql id="column2">
+		  uc_user.id,  <!-- 主键id -->
+		  uc_user.mobile,  <!-- 手机号 -->
+		  uc_user.account,  <!-- 账号 -->
+		  uc_user.pwd,  <!-- 密码 -->
+		  uc_user.userid,  <!-- userid,用户唯一标识 -->
+		  uc_user.openid,  <!-- openid -->
+		  uc_user.status,  <!-- 用户状态:1.正常 2.停用 -->
+		  uc_user.register_time,  <!-- 注册时间 -->
+		  uc_user.is_valid  <!-- 数据是否有效:0.无效 1.有效 -->
+	</sql>
+
+	<!-- Where精确匹配字段 -->
+	<sql id="equal">
+	   <if test="id != null ">
+		      AND id = #{id}  <!-- 主键id -->
+		</if>
+	    <if test="mobile != null and mobile != ''">
+		      AND mobile = #{mobile}  <!-- 手机号 -->
+		</if>
+	    <if test="account != null and account != ''">
+		      AND account = #{account}  <!-- 账号 -->
+		</if>
+	    <if test="pwd != null and pwd != ''">
+		      AND pwd = #{pwd}  <!-- 密码 -->
+		</if>
+	   <if test="userid != null ">
+		      AND userid = #{userid}  <!-- userid,用户唯一标识 -->
+		</if>
+	    <if test="openid != null and openid != ''">
+		      AND openid = #{openid}  <!-- openid -->
+		</if>
+	   <if test="status != null ">
+		      AND status = #{status}  <!-- 用户状态:1.正常 2.停用 -->
+		</if>
+	    <if test="register_time != null and register_time != ''">
+		      AND register_time = #{register_time}  <!-- 注册时间 -->
+		</if>
+	   <if test="is_valid != null ">
+		      AND is_valid = #{is_valid}  <!-- 数据是否有效:0.无效 1.有效 -->
+		</if>
+	</sql>
+	
+	<!-- Where模糊匹配字段 -->
+	<sql id="like">
+	    <if test="mobile != null and mobile != ''">
+		      AND mobile like '%${mobile}%'  <!-- 手机号 -->
+		</if>
+	    <if test="account != null and account != ''">
+		      AND account like '%${account}%'  <!-- 账号 -->
+		</if>
+	    <if test="pwd != null and pwd != ''">
+		      AND pwd like '%${pwd}%'  <!-- 密码 -->
+		</if>
+	    <if test="openid != null and openid != ''">
+		      AND openid like '%${openid}%'  <!-- openid -->
+		</if>
+	    <if test="register_time != null and register_time != ''">
+		      AND register_time like '%${register_time}%'  <!-- 注册时间 -->
+		</if>
+	</sql>
+	
+	<select id="getUserByAccount" resultType="Uc_userPO" parameterType="java.lang.String">
+		select 
+		  id,  <!-- 主键id -->
+		  mobile,  <!-- 手机号 -->
+		  account,  <!-- 账号 -->
+		  pwd,  <!-- 密码 -->
+		  userid,  <!-- userid,用户唯一标识 -->
+		  openid,  <!-- openid -->
+		  status,  <!-- 用户状态:1.正常 2.停用 -->
+		  register_time,  <!-- 注册时间 -->
+		  is_valid  <!-- 数据是否有效:0.无效 1.有效 -->
+		from 
+			uc_user
+		where
+			is_valid = 1
+		  and 
+		  	account = #{account}
+	</select>
+</mapper>

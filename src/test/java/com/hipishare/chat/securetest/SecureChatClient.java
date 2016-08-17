@@ -38,6 +38,7 @@ import org.apache.logging.log4j.Logger;
 import com.google.gson.Gson;
 import com.hipishare.chat.server.domain.ChatObject;
 import com.hipishare.chat.server.domain.MsgObject;
+import com.hipishare.chat.server.domain.RegisterCode;
 import com.hipishare.chat.server.domain.User;
 import com.hipishare.chat.server.enums.CmdEnum;
 
@@ -52,6 +53,7 @@ public final class SecureChatClient {
 	private static Channel channel;
 
 	static final String HOST = System.getProperty("host", "127.0.0.1");
+//	static final String HOST = System.getProperty("host", "120.25.160.18");
 	static final int PORT = Integer.parseInt(System.getProperty("port", "11210"));
 
 	public static void main(String[] args) throws Exception {
@@ -107,7 +109,7 @@ public final class SecureChatClient {
 				Gson gson = new Gson();
 				if ("1".equals(line)) {
 					User user = new User();
-					user.setAccount("peter");
+					user.setAccount("jack");
 					user.setPwd("666666");
 					msgObj.setC(CmdEnum.LOGIN.getCmd());
 					msgObj.setM(gson.toJson(user));
@@ -115,11 +117,17 @@ public final class SecureChatClient {
 					ChatObject co = new ChatObject();
 					co.setContent("hello,jack. I am peter.");
 					co.setMsgType("text");
-					co.setMsgTo("jack");
-					co.setMsgFrom("peter");
+					co.setMsgTo("peter");
+					co.setMsgFrom("jack");
 					co.setCreateTime(System.currentTimeMillis());
 					msgObj.setC(CmdEnum.CHAT.getCmd());
 					msgObj.setM(gson.toJson(co));
+				} else if ("3".equals(line)) {
+					RegisterCode rc = new RegisterCode();
+					rc.setMobile("13410969042");
+					rc.setSign("fdsafsadf");
+					msgObj.setC(CmdEnum.REGISTER_CODE.getCmd());
+					msgObj.setM(gson.toJson(rc));
 				}
 				String msg = gson.toJson(msgObj);
 				ByteBuf buf = Unpooled.copiedBuffer(msg.getBytes());

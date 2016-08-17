@@ -90,14 +90,15 @@ public class MemcachedManager {
 				|| memcachedClient.stats().size() <= 0) {
 			LOG.error("memcached初始化失败");
 			HipishareException.raise("3001");
-			;
 		}
 		LOG.info("memcached初始化成功");
 	}
 	
-	public static void set(String key, String value){
-		memcachedClient.set(key, value);
+	public static boolean set(String key, String value){
+		return memcachedClient.set(key, value);
 	}
 	
-	
+	public static Object get(String key) {
+		return memcachedClient.get(key);
+	}
 }

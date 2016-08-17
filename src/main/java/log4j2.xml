@@ -15,14 +15,14 @@
 		<Console name="Console" target="SYSTEM_OUT">
 			<PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
 		</Console>
-		<File name="TestLogfile" fileName="target/testlog4j2.log"
+		<File name="TestLogfile" fileName="logs/testlog4j2.log"
 			immediateFlush="false">
 			<PatternLayout>
 				<Pattern>%d %5p [%t] %c{1} - %m%n</Pattern>
 			</PatternLayout>
 		</File>
 		<RandomAccessFile name="RandomAccessLogFile"
-			fileName="target/testCustomlog4j2.log" immediateFlush="false">
+			fileName="logs/testCustomlog4j2.log" immediateFlush="false">
 			<PatternLayout>
 				<Pattern>%d %5p [%t] %c{1} %X{key1} %X{key2} - %m%n</Pattern>
 			</PatternLayout>

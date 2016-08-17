@@ -5,6 +5,7 @@ import com.hipishare.chat.server.domain.ChatObject;
 import com.hipishare.chat.server.domain.MsgObject;
 import com.hipishare.chat.server.enums.CmdEnum;
 import com.hipishare.chat.server.manager.ChannelManager;
+import com.hipishare.chat.server.manager.MemcachedManager;
 import com.hipishare.chat.server.manager.RedisManager;
 import com.hipishare.chat.server.utils.Constants;
 
@@ -47,9 +48,10 @@ public class SingleChatReceiver extends AbstractReceiver<ChatObject> implements 
 				channelTo.writeAndFlush(buf);
 			}
 		} else {// 用户不在线，消息存入缓存
-			RedisManager redisManager = RedisManager.getRedisClient();
+//			RedisManager redisManager = RedisManager.getRedisClient();
 			String key = Constants.MSG_PREFIX + chatObject.getMsgTo();
-			redisManager.set(key, gson.toJson(chatObject), 60*60*24*30);// 30天
+			MemcachedManager.set(key, gson.toJson(chatObject));
+//			redisManager.set(key, gson.toJson(chatObject), 60*60*24*30);// 30天
 		}
 	}
 	
