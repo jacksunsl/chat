@@ -79,6 +79,10 @@ public class LoginReceiver extends AbstractReceiver<User> implements HipishareCo
 				if (null != msg_offline) {
 					msgObj.setC(CmdEnum.CHAT.getCmd());
 					msgObj.setM(msg_offline.toString());
+					boolean flag = MemcachedManager.del(key);// 清理离线消息
+					if (flag) {
+						LOG.info("离线消息清理完毕...");
+					}
 					sendMsg(msgObj);
 				}
 			} else {

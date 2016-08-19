@@ -94,11 +94,15 @@ public class MemcachedManager {
 		LOG.info("memcached初始化成功");
 	}
 	
-	public static boolean set(String key, String value){
+	public static boolean set(String key, Object value){
 		return memcachedClient.set(key, value);
 	}
 	
 	public static Object get(String key) {
 		return memcachedClient.get(key);
+	}
+	
+	public static boolean del(String key) {
+		return memcachedClient.delete(key);
 	}
 }

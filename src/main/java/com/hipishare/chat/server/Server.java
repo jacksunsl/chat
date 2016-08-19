@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.hipishare.chat.server.handler.SecureChatInitializer;
 import com.hipishare.chat.server.manager.MemcachedManager;
+import com.hipishare.chat.server.manager.RedisManager;
 import com.hipishare.chat.server.utils.SpringContextUtil;
 
 import io.netty.bootstrap.ServerBootstrap;
@@ -57,7 +58,7 @@ public class Server {
 			// 初始化memcached
 			MemcachedManager.initMemcached();
 			// 初始化redis
-//			RedisManager.getRedisClient();
+			RedisManager.initRedisClient();
 			// 初始化spring
 			SpringContextUtil.initSpringConfig();
 			
