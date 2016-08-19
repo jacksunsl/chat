@@ -37,5 +37,11 @@ public class RegisterCode {
 	public void setSign(String sign) {
 		this.sign = sign;
 	}
+	public String getPwd() {
+		return pwd;
+	}
+	public void setPwd(String pwd) {
+		this.pwd = pwd;
+	}
 	
 }

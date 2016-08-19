@@ -2,6 +2,9 @@ package com.hipishare.chat.server.codec;
 
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.google.gson.Gson;
 import com.hipishare.chat.server.domain.MsgObject;
 
@@ -11,6 +14,8 @@ import io.netty.handler.codec.MessageToMessageEncoder;
 
 @Sharable
 public class MsgObjectEncoder extends MessageToMessageEncoder<MsgObject> {
+
+	private static Logger LOG = LogManager.getLogger(MsgObjectEncoder.class.getName());
 	
 	private Gson gson = new Gson();
 
@@ -19,6 +24,7 @@ public class MsgObjectEncoder extends MessageToMessageEncoder<MsgObject> {
 		if (null == msg) {
 			return;
 		}
+		LOG.info("encode="+msg);
 		out.add(gson.toJson(msg));
 	}
 

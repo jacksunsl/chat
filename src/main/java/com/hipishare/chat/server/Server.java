@@ -5,7 +5,6 @@ import org.apache.logging.log4j.Logger;
 
 import com.hipishare.chat.server.handler.SecureChatInitializer;
 import com.hipishare.chat.server.manager.MemcachedManager;
-import com.hipishare.chat.server.manager.RedisManager;
 import com.hipishare.chat.server.utils.SpringContextUtil;
 
 import io.netty.bootstrap.ServerBootstrap;

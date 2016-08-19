@@ -27,7 +27,7 @@
 		<if test="status != null">
 	         status, <!-- 用户状态:1.正常 2.停用 -->
 		</if>
-		<if test="register_time != null and register_time != ''">
+		<if test="register_time != null">
 	         register_time, <!-- 注册时间 -->
 		</if>
 		<if test="is_valid != null">
@@ -53,8 +53,8 @@
 		<if test="status != null">
 	          #{status, jdbcType=INTEGER}, <!-- 用户状态:1.正常 2.停用 -->
 	    </if>
-		<if test="register_time != null and register_time != ''">
-	          #{register_time, jdbcType=VARCHAR}, <!-- 注册时间 -->
+		<if test="register_time != null">
+	          #{register_time, jdbcType=TIMESTAMP}, <!-- 注册时间 -->
 	    </if>
 		<if test="is_valid != null">
 	          #{is_valid, jdbcType=INTEGER}, <!-- 数据是否有效:0.无效 1.有效 -->
@@ -76,7 +76,7 @@
 		    #{userid, jdbcType=INTEGER},  <!-- userid,用户唯一标识 -->
 		    #{openid, jdbcType=VARCHAR},  <!-- openid -->
 		    #{status, jdbcType=INTEGER},  <!-- 用户状态:1.正常 2.停用 -->
-		    #{register_time, jdbcType=VARCHAR},  <!-- 注册时间 -->
+		    #{register_time},  <!-- 注册时间 -->
 		    #{is_valid, jdbcType=INTEGER}  <!-- 数据是否有效:0.无效 1.有效 -->
 		)
 	</insert>
@@ -107,7 +107,7 @@
 		          status = #{status, jdbcType=INTEGER},  <!-- 用户状态:1.正常 2.停用 -->
 			</if>
 			<if test="register_time != null">
-		          register_time = #{register_time, jdbcType=VARCHAR},  <!-- 注册时间 -->
+		          register_time = #{register_time},  <!-- 注册时间 -->
 			</if>
 			<if test="is_valid != null">
 		          is_valid = #{is_valid, jdbcType=INTEGER},  <!-- 数据是否有效:0.无效 1.有效 -->
@@ -178,7 +178,7 @@
 	   <if test="status != null ">
 		      AND status = #{status}  <!-- 用户状态:1.正常 2.停用 -->
 		</if>
-	    <if test="register_time != null and register_time != ''">
+	    <if test="register_time != null">
 		      AND register_time = #{register_time}  <!-- 注册时间 -->
 		</if>
 	   <if test="is_valid != null ">
@@ -200,7 +200,7 @@
 	    <if test="openid != null and openid != ''">
 		      AND openid like '%${openid}%'  <!-- openid -->
 		</if>
-	    <if test="register_time != null and register_time != ''">
+	    <if test="register_time != null">
 		      AND register_time like '%${register_time}%'  <!-- 注册时间 -->
 		</if>
 	</sql>

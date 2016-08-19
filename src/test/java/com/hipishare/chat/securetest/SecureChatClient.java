@@ -35,6 +35,8 @@ import java.util.concurrent.TimeUnit;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import redis.clients.jedis.Jedis;
+
 import com.google.gson.Gson;
 import com.hipishare.chat.server.domain.ChatObject;
 import com.hipishare.chat.server.domain.MsgObject;
@@ -52,8 +54,10 @@ public final class SecureChatClient {
 
 	private static Channel channel;
 
-	static final String HOST = System.getProperty("host", "127.0.0.1");
-//	static final String HOST = System.getProperty("host", "120.25.160.18");
+	static Jedis redis = new Jedis("120.25.160.18", 6379);
+
+//	static final String HOST = System.getProperty("host", "127.0.0.1");
+	static final String HOST = System.getProperty("host", "120.25.160.18");
 	static final int PORT = Integer.parseInt(System.getProperty("port", "11210"));
 
 	public static void main(String[] args) throws Exception {
@@ -109,7 +113,7 @@ public final class SecureChatClient {
 				Gson gson = new Gson();
 				if ("1".equals(line)) {
 					User user = new User();
-					user.setAccount("jack");
+					user.setAccount("peter");
 					user.setPwd("666666");
 					msgObj.setC(CmdEnum.LOGIN.getCmd());
 					msgObj.setM(gson.toJson(user));
@@ -117,8 +121,8 @@ public final class SecureChatClient {
 					ChatObject co = new ChatObject();
 					co.setContent("hello,jack. I am peter.");
 					co.setMsgType("text");
-					co.setMsgTo("peter");
-					co.setMsgFrom("jack");
+					co.setMsgTo("jack");
+					co.setMsgFrom("peter");
 					co.setCreateTime(System.currentTimeMillis());
 					msgObj.setC(CmdEnum.CHAT.getCmd());
 					msgObj.setM(gson.toJson(co));
@@ -127,6 +131,13 @@ public final class SecureChatClient {
 					rc.setMobile("13410969042");
 					rc.setSign("fdsafsadf");
 					msgObj.setC(CmdEnum.REGISTER_CODE.getCmd());
+					msgObj.setM(gson.toJson(rc));
+				} else if ("4".equals(line)) {
+					RegisterCode rc = new RegisterCode();
+					rc.setMobile("13410969042");
+					rc.setCode("3243");
+					rc.setSign("fdsafsadf");
+					msgObj.setC(CmdEnum.REGISTER.getCmd());
 					msgObj.setM(gson.toJson(rc));
 				}
 				String msg = gson.toJson(msgObj);

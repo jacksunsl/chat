@@ -5,13 +5,13 @@ import org.apache.logging.log4j.Logger;
 
 import com.hipishare.chat.server.Server;
 import com.hipishare.chat.server.command.HipishareCommand;
-import com.hipishare.chat.server.dao.po.Uc_userPO;
+import com.hipishare.chat.server.domain.LoginResp;
 import com.hipishare.chat.server.domain.MsgObject;
 import com.hipishare.chat.server.domain.User;
 import com.hipishare.chat.server.enums.CmdEnum;
+import com.hipishare.chat.server.exception.HipishareException;
 import com.hipishare.chat.server.manager.ChannelManager;
 import com.hipishare.chat.server.manager.MemcachedManager;
-import com.hipishare.chat.server.manager.RedisManager;
 import com.hipishare.chat.server.manager.UserManager;
 import com.hipishare.chat.server.service.UserService;
 import com.hipishare.chat.server.utils.Constants;
@@ -41,22 +41,37 @@ public class LoginReceiver extends AbstractReceiver<User> implements HipishareCo
 		User user = getEntityFromMsg(User.class);
 		if (null != user) {
 			if (null != user.getAccount()) {
+				LoginResp loginResp = new LoginResp();
 				MsgObject msgObj = new MsgObject();
 				msgObj.setC(CmdEnum.LOGIN.getCmd());
 				// 通过account获取userId存入ChannelManager
-				Uc_userPO userPO = userService.getUserByAccount(user.getAccount());
-				System.out.println("============="+userPO.getAccount());
-				// 判断是否已经登陆
-				ChannelManager cm = ChannelManager.getInstance();
-				if (null != cm.getChannel(user.getAccount())){
-					msgObj.setM(user.getAccount()+"已经登陆");
-				} else {
-					cm.addChannel(user.getAccount(), channel);
-					UserManager um = UserManager.getInstance();
-					um.addUser(channel.id(), user);
-					msgObj.setM(user.getAccount()+"登录成功");
+				try {
+					userService.login(user);
+					// 判断是否已经登陆
+					ChannelManager cm = ChannelManager.getInstance();
+					if (null == cm.getChannel(user.getAccount())){
+						cm.addChannel(user.getAccount(), channel);
+						UserManager um = UserManager.getInstance();
+						um.addUser(channel.id(), user);
+					}
+					loginResp.setFlag(false);
+					loginResp.setMsg("登陆成功");
+					msgObj.setM(gson.toJson(loginResp));
+					sendMsg(msgObj);
+				} catch(HipishareException e) {
+					loginResp.setFlag(false);
+					loginResp.setMsg(e.getMessage());
+					msgObj.setM(gson.toJson(loginResp));
+					sendMsg(msgObj);
+					return;
+				} catch(Exception e) {
+					e.printStackTrace();
+					loginResp.setFlag(false);
+					loginResp.setMsg("登陆失败，请稍后再试");
+					msgObj.setM(gson.toJson(loginResp));
+					sendMsg(msgObj);
+					return;
 				}
-				sendMsg(msgObj);
 				// 获取离线消息
 //				RedisManager redisManager = RedisManager.getRedisClient();
 				String key = Constants.MSG_PREFIX + user.getAccount();
