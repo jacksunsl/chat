@@ -54,7 +54,7 @@ public class LoginReceiver extends AbstractReceiver<User> implements HipishareCo
 						UserManager um = UserManager.getInstance();
 						um.addUser(channel.id(), user);
 					}
-					loginResp.setFlag(false);
+					loginResp.setFlag(true);
 					loginResp.setMsg("登陆成功");
 					msgObj.setM(gson.toJson(loginResp));
 					sendMsg(msgObj);

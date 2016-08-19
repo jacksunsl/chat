@@ -14,6 +14,8 @@ public enum CmdEnum {
 	LOGIN((short)3),// 登录
 	CHAT((short)4),// 聊天
 	GET_FRIENDS((short)5),// 获取好友列表
+	SEARCH_USER((short)6),// 搜索用户
+	ADD_USER((short)7),// 添加好友
 	READY((short)7);// 准备
 	
 	private final short cmd;
