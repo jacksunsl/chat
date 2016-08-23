@@ -17,8 +17,8 @@ package com.hipishare.chat.securetest;
 
 import java.util.concurrent.TimeUnit;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import com.hipishare.chat.server.codec.MsgObjectDecoder;
 import com.hipishare.chat.server.codec.MsgObjectEncoder;

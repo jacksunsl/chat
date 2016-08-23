@@ -15,8 +15,8 @@
  */
 package com.hipishare.chat.securetest;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import com.google.gson.Gson;
 import com.hipishare.chat.server.domain.MsgObject;
