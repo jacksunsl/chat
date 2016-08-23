@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 
 import com.hipishare.chat.server.exception.HipishareException;
 import com.hipishare.chat.server.utils.PropertiesUtil;
+import com.hipishare.chat.server.utils.RedisUtil;
 
 //import redis.clients.jedis.HostAndPort;
 import redis.clients.jedis.Jedis;
@@ -62,7 +63,8 @@ public class RedisManager {
 			HipishareException.raise("3002");
 		}
 		if (null == jedisClient) {
-			jedisClient = new Jedis(ip, port);
+//			jedisClient = new Jedis(ip, port);
+			jedisClient = RedisUtil.getJedis();
 			LOGGER.info("redis 客户端初始化成功");
 		}
 	}
@@ -79,15 +81,15 @@ public class RedisManager {
 		return redisManager;
 	}
 
-	public String set(String key, String value, long expSecond) {
-		return jedisClient.set(key, value, "nx", "ex", expSecond);
+	public static String set(String key, String value, long expSecond) {
+		return RedisUtil.getJedis().set(key, value, "nx", "ex", expSecond);
 	}
 
-	public String get(String key) {
-		return jedisClient.get(key);
+	public static String get(String key) {
+		return RedisUtil.getJedis().get(key);
 	}
 	
-	public Long del(String key){
-		return jedisClient.del(key);
+	public static Long del(String key){
+		return RedisUtil.getJedis().del(key);
 	}
 }

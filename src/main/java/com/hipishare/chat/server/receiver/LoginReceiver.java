@@ -11,7 +11,7 @@ import com.hipishare.chat.server.domain.User;
 import com.hipishare.chat.server.enums.CmdEnum;
 import com.hipishare.chat.server.exception.HipishareException;
 import com.hipishare.chat.server.manager.ChannelManager;
-import com.hipishare.chat.server.manager.MemcachedManager;
+import com.hipishare.chat.server.manager.RedisManager;
 import com.hipishare.chat.server.manager.UserManager;
 import com.hipishare.chat.server.service.UserService;
 import com.hipishare.chat.server.utils.Constants;
@@ -75,14 +75,13 @@ public class LoginReceiver extends AbstractReceiver<User> implements HipishareCo
 				// 获取离线消息
 //				RedisManager redisManager = RedisManager.getRedisClient();
 				String key = Constants.MSG_PREFIX + user.getAccount();
-				Object msg_offline = MemcachedManager.get(key);
+//				Object msg_offline = MemcachedManager.get(key);
+				String msg_offline = RedisManager.get(key);
 				if (null != msg_offline) {
 					msgObj.setC(CmdEnum.CHAT.getCmd());
 					msgObj.setM(msg_offline.toString());
-					boolean flag = MemcachedManager.del(key);// 清理离线消息
-					if (flag) {
-						LOG.info("离线消息清理完毕...");
-					}
+					long flag = RedisManager.del(key);// 清理离线消息
+					LOG.info("离线消息清理完毕..."+flag);
 					sendMsg(msgObj);
 				}
 			} else {

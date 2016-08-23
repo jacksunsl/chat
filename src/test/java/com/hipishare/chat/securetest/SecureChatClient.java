@@ -35,8 +35,6 @@ import java.util.concurrent.TimeUnit;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
-import redis.clients.jedis.Jedis;
-
 import com.google.gson.Gson;
 import com.hipishare.chat.server.domain.ChatObject;
 import com.hipishare.chat.server.domain.MsgObject;
@@ -53,8 +51,6 @@ public final class SecureChatClient {
 	private static Bootstrap bootstrap = null;
 
 	private static Channel channel;
-
-	static Jedis redis = new Jedis("120.25.160.18", 6379);
 
 //	static final String HOST = System.getProperty("host", "127.0.0.1");
 	static final String HOST = System.getProperty("host", "120.25.160.18");
