@@ -1,5 +1,8 @@
 package com.hipishare.chat.server.receiver;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
 import com.hipishare.chat.server.command.HipishareCommand;
 import com.hipishare.chat.server.domain.ChatObject;
 import com.hipishare.chat.server.domain.MsgObject;
@@ -21,6 +24,8 @@ import io.netty.channel.Channel;
  */
 public class SingleChatReceiver extends AbstractReceiver<ChatObject> implements HipishareCommand {
 
+	private static Logger LOG = LogManager.getLogger(SingleChatReceiver.class.getName());
+	
 	public SingleChatReceiver(String msg, Channel channel) {
 		super(msg, channel);
 	}
@@ -34,7 +39,7 @@ public class SingleChatReceiver extends AbstractReceiver<ChatObject> implements 
 	}
 	
 	private void sendMsgTo(ChatObject chatObject) {
-		System.out.println("chat---------------");
+		LOG.info("chat---------------");
 		ChannelManager cm = ChannelManager.getInstance();
 		Channel channelTo = cm.getChannel(chatObject.getMsgTo());
 		if (null != channelTo) {// 接收消息者在线
