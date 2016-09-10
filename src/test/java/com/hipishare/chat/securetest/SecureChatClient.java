@@ -109,7 +109,7 @@ public final class SecureChatClient {
 				Gson gson = new Gson();
 				if ("1".equals(line)) {
 					User user = new User();
-					user.setAccount("peter");
+					user.setAccount("peters");
 					user.setPwd("666666");
 					msgObj.setC(CmdEnum.LOGIN.getCmd());
 					msgObj.setM(gson.toJson(user));

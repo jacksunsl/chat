@@ -40,8 +40,8 @@ public class LoginReceiver extends AbstractReceiver<User> implements HipishareCo
 		LOG.info("登陆处理中...");
 		User user = getEntityFromMsg(User.class);
 		if (null != user) {
+			LoginResp loginResp = new LoginResp();
 			if (null != user.getAccount()) {
-				LoginResp loginResp = new LoginResp();
 				MsgObject msgObj = new MsgObject();
 				msgObj.setC(CmdEnum.LOGIN.getCmd());
 				// 通过account获取userId存入ChannelManager
@@ -69,6 +69,7 @@ public class LoginReceiver extends AbstractReceiver<User> implements HipishareCo
 					LOG.info("登陆成功...");
 				} catch(HipishareException e) {
 					loginResp.setFlag(false);
+					loginResp.setCode(e.getCode());
 					loginResp.setMsg(e.getMessage());
 					msgObj.setM(gson.toJson(loginResp));
 					sendMsg(msgObj);
@@ -96,7 +97,9 @@ public class LoginReceiver extends AbstractReceiver<User> implements HipishareCo
 			} else {
 				MsgObject msgObj = new MsgObject();
 				msgObj.setC(CmdEnum.LOGIN.getCmd());
-				msgObj.setM("登录失败，用户名或密码错误");
+				loginResp.setFlag(true);
+				loginResp.setMsg("用户名或密码不能为空");
+				msgObj.setM(gson.toJson(loginResp));
 				sendMsg(msgObj);
 			}
 		}

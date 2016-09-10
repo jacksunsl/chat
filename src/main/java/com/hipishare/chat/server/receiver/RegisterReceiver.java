@@ -56,6 +56,7 @@ public class RegisterReceiver extends AbstractReceiver<RegisterCode> implements 
 				} catch(HipishareException e) {
 					LOG.error("[注册失败]:"+e.getMessage());
 					registerResp.setFlag(false);
+					registerResp.setCode(e.getCode());
 					registerResp.setMsg(e.getMessage());
 					msgObj.setM(gson.toJson(registerResp));
 					sendMsg(msgObj);

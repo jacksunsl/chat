@@ -6,6 +6,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.hipishare.chat.server.dao.mapper.Uc_userMapper;
 import com.hipishare.chat.server.dao.po.Uc_userPO;
@@ -31,6 +32,7 @@ public class UserService {
 		return userMapper.getUserByAccount(account);
 	}
 	
+	@Transactional
 	public void register(RegisterCode register) throws HipishareException {
 		Uc_userPO exitUser = userMapper.getUserByAccount(register.getMobile());
 		if (null != exitUser) {
@@ -53,6 +55,9 @@ public class UserService {
 		LOG.info("开始读取用户数据...结束");
 		if (null == userPO) {
 			HipishareException.raise("2002");
+		}
+		if (!userPO.getPwd().equals(user.getPwd())) {// 密码错误
+			HipishareException.raise("2003");
 		}
 		// 记录登陆日志
 	}
