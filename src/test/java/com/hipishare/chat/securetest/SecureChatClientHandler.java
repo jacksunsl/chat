@@ -44,7 +44,7 @@ public class SecureChatClientHandler extends SimpleChannelInboundHandler<MsgObje
 		Gson gson = new Gson();
 		msgObj.setC(CmdEnum.HEART_BEAT.getCmd());
 		msgObj.setM("o");
-		String msg = gson.toJson(msgObj);
+		String msg = gson.toJson(msgObj)+"\r\n";
 		firstMessage = Unpooled.copiedBuffer(msg.getBytes());
 	}
 
@@ -68,7 +68,7 @@ public class SecureChatClientHandler extends SimpleChannelInboundHandler<MsgObje
 			Gson gson = new Gson();
 			msgObj.setC(CmdEnum.HEART_BEAT.getCmd());
 			msgObj.setM("o");
-			String msg2 = gson.toJson(msgObj);
+			String msg2 = gson.toJson(msgObj)+"\r\n";
 			ByteBuf buf = Unpooled.copiedBuffer(msg2.getBytes());
 			ctx.writeAndFlush(buf);
 		}

@@ -39,7 +39,7 @@ public class HeartBeatHandler extends ChannelDuplexHandler {
 				Gson gson = new Gson();
 				msgObj.setC(CmdEnum.HEART_BEAT.getCmd());
 				msgObj.setM("p");
-				String msg = gson.toJson(msgObj);
+				String msg = gson.toJson(msgObj)+"\r\n";
         		ByteBuf buf = Unpooled.copiedBuffer(msg.getBytes());
         		ctx.channel().writeAndFlush(buf);
         	}

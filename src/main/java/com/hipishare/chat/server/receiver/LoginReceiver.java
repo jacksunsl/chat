@@ -37,7 +37,7 @@ public class LoginReceiver extends AbstractReceiver<User> implements HipishareCo
 	
 	@Override
 	public void execute() throws Exception {
-		LOG.info("登陆处理...");
+		LOG.info("登陆处理中...");
 		User user = getEntityFromMsg(User.class);
 		if (null != user) {
 			if (null != user.getAccount()) {
@@ -49,15 +49,24 @@ public class LoginReceiver extends AbstractReceiver<User> implements HipishareCo
 					userService.login(user);
 					// 判断是否已经登陆
 					ChannelManager cm = ChannelManager.getInstance();
-					if (null == cm.getChannel(user.getAccount())){
+					if (null == cm.getChannel(user.getAccount())){// 没有登录就
 						cm.addChannel(user.getAccount(), channel);
 						UserManager um = UserManager.getInstance();
 						um.addUser(channel.id(), user);
+					} else {// 已经登录，更新channel
+						if (!channel.id().equals(cm.getChannel(user.getAccount()).id())) {
+							loginResp.setMsg("重新登录");
+							cm.removeChannel(user.getAccount());
+							cm.addChannel(user.getAccount(), channel);
+							UserManager um = UserManager.getInstance();
+							um.addUser(channel.id(), user);
+						}
 					}
 					loginResp.setFlag(true);
 					loginResp.setMsg("登陆成功");
 					msgObj.setM(gson.toJson(loginResp));
 					sendMsg(msgObj);
+					LOG.info("登陆成功...");
 				} catch(HipishareException e) {
 					loginResp.setFlag(false);
 					loginResp.setMsg(e.getMessage());

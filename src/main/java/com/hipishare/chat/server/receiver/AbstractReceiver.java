@@ -36,7 +36,7 @@ public class AbstractReceiver<E> {
 	}
 	
 	public void sendMsg(MsgObject msgObj){
-		String result = gson.toJson(msgObj);
+		String result = gson.toJson(msgObj)+"\r\n";
 		ByteBuf buf = Unpooled.copiedBuffer(result.getBytes());
 		channel.writeAndFlush(buf);
 	}

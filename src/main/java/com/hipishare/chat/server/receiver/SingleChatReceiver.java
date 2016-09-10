@@ -42,12 +42,24 @@ public class SingleChatReceiver extends AbstractReceiver<ChatObject> implements 
 		LOG.info("chat---------------");
 		ChannelManager cm = ChannelManager.getInstance();
 		Channel channelTo = cm.getChannel(chatObject.getMsgTo());
+		Channel channelFrom = cm.getChannel(chatObject.getMsgFrom());
+		
+		// 发送给自己
+		if (null != channelFrom) {
+			MsgObject msgObj = new MsgObject();
+			msgObj.setC(CmdEnum.CHAT.getCmd());
+			msgObj.setM(gson.toJson(chatObject));
+			String result = gson.toJson(msgObj)+"\r\n";
+			ByteBuf buf = Unpooled.copiedBuffer(result.getBytes());
+			channelFrom.writeAndFlush(buf);
+		}
+		
 		if (null != channelTo) {// 接收消息者在线
 			if (channelTo.isActive()) {
 				MsgObject msgObj = new MsgObject();
 				msgObj.setC(CmdEnum.CHAT.getCmd());
-				msgObj.setM(chatObject.getContent());
-				String result = gson.toJson(msgObj);
+				msgObj.setM(gson.toJson(chatObject));
+				String result = gson.toJson(msgObj)+"\r\n";
 				ByteBuf buf = Unpooled.copiedBuffer(result.getBytes());
 				channelTo.writeAndFlush(buf);
 			}

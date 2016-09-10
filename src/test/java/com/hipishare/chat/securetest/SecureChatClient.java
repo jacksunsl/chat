@@ -136,7 +136,7 @@ public final class SecureChatClient {
 					msgObj.setC(CmdEnum.REGISTER.getCmd());
 					msgObj.setM(gson.toJson(rc));
 				}
-				String msg = gson.toJson(msgObj);
+				String msg = gson.toJson(msgObj) + "\r\n";
 				ByteBuf buf = Unpooled.copiedBuffer(msg.getBytes());
 				lastWriteFuture = channel.writeAndFlush(buf);
 

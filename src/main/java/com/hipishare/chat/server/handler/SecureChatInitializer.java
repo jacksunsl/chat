@@ -23,6 +23,8 @@ import com.hipishare.chat.server.codec.MsgObjectEncoder;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
+import io.netty.handler.codec.DelimiterBasedFrameDecoder;
+import io.netty.handler.codec.Delimiters;
 import io.netty.handler.ssl.SslContext;
 import io.netty.handler.timeout.IdleStateHandler;
 
@@ -47,10 +49,10 @@ public class SecureChatInitializer extends ChannelInitializer<SocketChannel> {
         // and accept any invalid certificates in the client side.
         // You will need something more complicated to identify both
         // and server in the real world.
-        pipeline.addLast(sslCtx.newHandler(ch.alloc()));
+//        pipeline.addLast(sslCtx.newHandler(ch.alloc()));
 
         // On top of the SSL handler, add the text line codec.
-//        pipeline.addLast(new DelimiterBasedFrameDecoder(8192, Delimiters.lineDelimiter()));
+        pipeline.addLast(new DelimiterBasedFrameDecoder(8192, Delimiters.lineDelimiter()));
         /*pipeline.addLast(new StringDecoder());
         pipeline.addLast(new StringEncoder());*/
         pipeline.addLast(new MsgObjectDecoder());

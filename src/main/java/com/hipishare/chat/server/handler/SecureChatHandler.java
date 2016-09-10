@@ -57,16 +57,19 @@ public class SecureChatHandler extends SimpleChannelInboundHandler<MsgObject> {
         // Once session is secured, send a greeting and register the channel to the global channel
         // list so the channel received the messages from others.
     	LOG.info("[上线]服务端channel激活");
-        ctx.pipeline().get(SslHandler.class).handshakeFuture().addListener(
-            new GenericFutureListener<Future<Channel>>() {
-                @Override
-                public void operationComplete(Future<Channel> future) throws Exception {
-                	if (future.isSuccess()) {
-                    	LOG.info("SSL安全模块加载成功");
-                        channels.add(ctx.channel());
-                	}
-                }
-        });
+    	SslHandler sslHandler = ctx.pipeline().get(SslHandler.class);
+    	if (null != sslHandler) {
+    		sslHandler.handshakeFuture().addListener(
+	            new GenericFutureListener<Future<Channel>>() {
+	                @Override
+	                public void operationComplete(Future<Channel> future) throws Exception {
+	                	if (future.isSuccess()) {
+	                    	LOG.info("SSL安全模块加载成功");
+	                        channels.add(ctx.channel());
+	                	}
+	                }
+	        });
+    	}
     }
 
     @Override

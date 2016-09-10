@@ -2,6 +2,8 @@ package com.hipishare.chat.server.service;
 
 import java.util.Date;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,8 @@ import com.hipishare.chat.server.utils.RandomCode;
 @Service("userService")
 public class UserService {
 
+	private static Logger LOG = LogManager.getLogger(UserService.class.getName());
+	
 	@Autowired
 	private Uc_userMapper userMapper;
 	
@@ -44,7 +48,9 @@ public class UserService {
 	}
 	
 	public void login(User user) throws HipishareException {
+		LOG.info("开始读取用户数据...");
 		Uc_userPO userPO = userMapper.getUserByAccount(user.getAccount());
+		LOG.info("开始读取用户数据...结束");
 		if (null == userPO) {
 			HipishareException.raise("2002");
 		}
