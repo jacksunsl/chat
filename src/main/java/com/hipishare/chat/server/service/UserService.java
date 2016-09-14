@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import com.hipishare.chat.server.dao.mapper.Uc_userMapper;
 import com.hipishare.chat.server.dao.po.Uc_userPO;
@@ -45,7 +46,11 @@ public class UserService {
 		user.setStatus(1);
 		user.setUserid(Integer.parseInt(RandomCode.getCharAndNumr(8, true)));
 		user.setRegister_time(new Date());
-		user.setPwd(register.getPwd());
+		if (StringUtils.isEmpty(register.getPwd())) {
+			user.setPwd("666666");
+		} else {
+			user.setPwd(register.getPwd());
+		}
 		userMapper.insert(user);
 	}
 	
@@ -56,7 +61,7 @@ public class UserService {
 		if (null == userPO) {
 			HipishareException.raise("2002");
 		}
-		if (!userPO.getPwd().equals(user.getPwd())) {// 密码错误
+		if (!user.getPwd().equals(userPO.getPwd())) {// 密码错误
 			HipishareException.raise("2003");
 		}
 		// 记录登陆日志
