@@ -49,7 +49,7 @@ public class SingleChatReceiver extends AbstractReceiver<ChatObject> implements 
 			MsgObject msgObj = new MsgObject();
 			msgObj.setC(CmdEnum.CHAT.getCmd());
 			msgObj.setM(gson.toJson(chatObject));
-			String result = gson.toJson(msgObj)+"\r\n";
+			String result = gson.toJson(msgObj);
 			ByteBuf buf = Unpooled.copiedBuffer(result.getBytes());
 			channelFrom.writeAndFlush(buf);
 		}
@@ -59,7 +59,7 @@ public class SingleChatReceiver extends AbstractReceiver<ChatObject> implements 
 				MsgObject msgObj = new MsgObject();
 				msgObj.setC(CmdEnum.CHAT.getCmd());
 				msgObj.setM(gson.toJson(chatObject));
-				String result = gson.toJson(msgObj)+"\r\n";
+				String result = gson.toJson(msgObj);
 				ByteBuf buf = Unpooled.copiedBuffer(result.getBytes());
 				channelTo.writeAndFlush(buf);
 			}

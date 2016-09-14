@@ -25,6 +25,7 @@ import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.codec.DelimiterBasedFrameDecoder;
 import io.netty.handler.codec.Delimiters;
+import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import io.netty.handler.ssl.SslContext;
 import io.netty.handler.timeout.IdleStateHandler;
 
@@ -52,7 +53,8 @@ public class SecureChatInitializer extends ChannelInitializer<SocketChannel> {
 //        pipeline.addLast(sslCtx.newHandler(ch.alloc()));
 
         // On top of the SSL handler, add the text line codec.
-        pipeline.addLast(new DelimiterBasedFrameDecoder(8192, Delimiters.lineDelimiter()));
+//        pipeline.addLast(new DelimiterBasedFrameDecoder(8192, Delimiters.lineDelimiter()));
+        pipeline.addLast(new LengthFieldBasedFrameDecoder(65536, 0, 4, 0, 4));
         /*pipeline.addLast(new StringDecoder());
         pipeline.addLast(new StringEncoder());*/
         pipeline.addLast(new MsgObjectDecoder());
