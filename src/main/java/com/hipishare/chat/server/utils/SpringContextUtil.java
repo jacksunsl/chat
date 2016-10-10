@@ -14,7 +14,6 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * @date 2015年8月7日
  * @author sunlei
  * @version 1.0
- * <p>Company:海城创投</p>
  * <p>Copyright:Copyright(c)2015</p>
  */
 public class SpringContextUtil implements ApplicationContextAware {
