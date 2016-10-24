@@ -14,7 +14,6 @@ import com.hipishare.chat.server.dao.po.Uc_userPO;
 import com.hipishare.chat.server.domain.RegisterCode;
 import com.hipishare.chat.server.domain.User;
 import com.hipishare.chat.server.exception.HipishareException;
-import com.hipishare.chat.server.utils.RandomCode;
 
 
 @Service("userService")
@@ -34,7 +33,7 @@ public class UserService {
 	}
 	
 	@Transactional
-	public void register(RegisterCode register) throws HipishareException {
+	public void register(RegisterCode register, Integer userid) throws HipishareException {
 		Uc_userPO exitUser = userMapper.getUserByAccount(register.getMobile());
 		if (null != exitUser) {
 			HipishareException.raise("2001");
@@ -44,7 +43,7 @@ public class UserService {
 		user.setMobile(register.getMobile());
 		user.setIs_valid(1);
 		user.setStatus(1);
-		user.setUserid(Integer.parseInt(RandomCode.getCharAndNumr(8, true)));
+		user.setUserid(userid);
 		user.setRegister_time(new Date());
 		if (StringUtils.isEmpty(register.getPwd())) {
 			user.setPwd("666666");

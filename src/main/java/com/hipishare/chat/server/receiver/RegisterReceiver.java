@@ -1,5 +1,11 @@
 package com.hipishare.chat.server.receiver;
 
+import java.io.IOException;
+
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.HttpException;
+import org.apache.commons.httpclient.NameValuePair;
+import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -12,6 +18,7 @@ import com.hipishare.chat.server.exception.HipishareException;
 import com.hipishare.chat.server.manager.MemcachedManager;
 import com.hipishare.chat.server.service.UserService;
 import com.hipishare.chat.server.utils.Constants;
+import com.hipishare.chat.server.utils.PropertiesUtil;
 import com.hipishare.chat.server.utils.SpringContextUtil;
 
 import io.netty.channel.Channel;
@@ -29,10 +36,13 @@ public class RegisterReceiver extends AbstractReceiver<RegisterCode> implements 
 	
 	private UserService userService;
 	
+	protected static PropertiesUtil properties4Sys = null;
+	
 	public RegisterReceiver(String msg, Channel channel) {
 		super(msg, channel);
 		try {
 			userService = (UserService)SpringContextUtil.getBean("userService");
+			properties4Sys = new PropertiesUtil("sysconfig.properties");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -48,7 +58,8 @@ public class RegisterReceiver extends AbstractReceiver<RegisterCode> implements 
 		if (null != code) {
 			if (!register.getCode().equals(code.toString())) {
 				try {
-					userService.register(register);
+					Integer userid = getUseridFromSeqsvr();
+					userService.register(register, userid);
 					registerResp.setFlag(true);
 					registerResp.setMsg("注册成功");
 					msgObj.setM(gson.toJson(registerResp));
@@ -79,6 +90,37 @@ public class RegisterReceiver extends AbstractReceiver<RegisterCode> implements 
 			msgObj.setM(gson.toJson(registerResp));
 			sendMsg(msgObj);
 		}
+	}
+	
+	/**
+	 * 获取用户id
+	 * @return
+	 * @throws HipishareException
+	 */
+	private Integer getUseridFromSeqsvr() throws HipishareException {
+		LOG.info("[RegisterReceiver.getUseridFromSeqsvr] 获取userid");
+		try {
+			String seqsvrUri = properties4Sys.getProperty("seqsvr.url");
+			HttpClient client = new HttpClient();
+			PostMethod method = new PostMethod(seqsvrUri);
+			NameValuePair data = new NameValuePair("data", "{\"account\":\"13410969042\"}");
+			NameValuePair sign = new NameValuePair("sign", "24324234324");
+			NameValuePair timestamp = new NameValuePair("timestamp", "24321432");
+			method.setRequestBody(new NameValuePair[]{data, sign, timestamp});
+			client.executeMethod(method);
+			String result = method.getResponseBodyAsString();
+			LOG.info("[RegisterReceiver.getUseridFromSeqsvr] result="+result);
+		} catch (HttpException e) {
+			e.printStackTrace();
+			LOG.info("[RegisterReceiver.getUseridFromSeqsvr] 获取userid错误");
+		} catch (IOException e) {
+			e.printStackTrace();
+			LOG.info("[RegisterReceiver.getUseridFromSeqsvr] 获取userid错误");
+		} catch (Exception e) {
+			e.printStackTrace();
+			LOG.info("[RegisterReceiver.getUseridFromSeqsvr] 获取userid错误");
+		} 
+		return 0;
 	}
 
 }
